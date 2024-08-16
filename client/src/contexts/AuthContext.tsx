@@ -1,7 +1,15 @@
 import * as React from "react";
 import toast from "react-hot-toast";
-import { User, AuthContextType, createAccountFn, signOutFn } from "@/types";
-import { createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
+// prettier-ignore
+import { AuthContextType, createAccountFn, signInWithEmailFn, signInWithGoogleFn, signOutFn, User } from "@/types";
+import {
+   createUserWithEmailAndPassword,
+   GoogleAuthProvider,
+   signInWithEmailAndPassword,
+   signInWithPopup,
+   updateProfile,
+   signOut,
+} from "firebase/auth";
 import { auth } from "@/firebase";
 
 // AuthContext
@@ -60,6 +68,44 @@ export const AuthProvider: React.FC<{
       }
    };
 
+   /**
+    * Signs the user in using a third-party provider (Google).
+    *
+    * @param callbackFunction - Optional callback function to be executed after sign-in.
+    */
+   const signInWithGoogle: signInWithGoogleFn = async (callbackFunction) => {
+      setIsAuthenticating(true);
+      try {
+         const authProvider = new GoogleAuthProvider();
+         await signInWithPopup(auth, authProvider);
+         if (callbackFunction) callbackFunction();
+         toast.success("Signed in successfully");
+      } catch (error: any) {
+         setIsAuthenticating(false);
+         toast.error(formattedErrorMessage(error.code));
+      }
+   };
+
+   /**
+    * Logs the user in using email and password.
+    *
+    * @param data - Object containing email and password.
+    * @param callbackFunction - Optional callback function to be executed after sign-in.
+    */
+   const logIn: signInWithEmailFn = async ({ email, password }, callbackFunction) => {
+      setIsAuthenticating(true);
+      try {
+         await signInWithEmailAndPassword(auth, email, password);
+         if (callbackFunction) callbackFunction();
+         toast.success("Signed-in successfully");
+      } catch (error: any) {
+         setIsAuthenticating(false);
+         console.log(error);
+
+         toast.error(formattedErrorMessage(error.code));
+      }
+   };
+
    /** Logs the user out. */
    const logOut: signOutFn = async () => {
       setIsAuthenticating(true);
@@ -82,6 +128,8 @@ export const AuthProvider: React.FC<{
       user,
       isAuthenticating,
       createAccount,
+      signInWithGoogle,
+      signInWithEmail: logIn,
       signOut: logOut,
    };
 
