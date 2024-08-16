@@ -8,3 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 export function slugify(name: string) {
    return name.trim().split(" ").join("-").toLowerCase();
 }
+
+export function abbreviate(name?: string, length = 2) {
+   if (!name) return;
+   const parts = name.trim().split(" ");
+   const minLength = Math.min(length, parts.length);
+   return parts.slice(0, minLength).reduce((previous, current) => previous + current[0], "");
+}

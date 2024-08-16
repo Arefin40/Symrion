@@ -1,7 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
-import { cn } from "@/utils";
+import { abbreviate, cn } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Home, User, Products, ShoppingCart } from "@/icons";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+   DropdownMenu,
+   DropdownMenuContent,
+   DropdownMenuItem,
+   DropdownMenuLabel,
+   DropdownMenuSeparator,
+   DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Logo from "@/icons/Logo";
 
 const navigations = [
@@ -18,8 +28,7 @@ const mobileNavigations = [
 ];
 
 const Header = () => {
-   const user = null;
-
+   const { user, signOut } = useAuth();
    return (
       <>
          <header className="sticky top-0 border-b font-medium text-gray-900 bg-white">
@@ -29,7 +38,7 @@ const Header = () => {
                </Link>
 
                <nav className="hidden lg:block">
-                  <ul className="flex items-center justify-center gap-x-10 font-medium">
+                  <ul className="flex items-center justify-center gap-x-10 font-semibold">
                      {navigations.map(({ label, path }) => (
                         <li key={path}>
                            <NavLink
@@ -54,7 +63,27 @@ const Header = () => {
                         </Button>
                      </>
                   ) : (
-                     <Button>Logout</Button>
+                     <DropdownMenu>
+                        <DropdownMenuTrigger className="outline-none">
+                           <Avatar className="border">
+                              <AvatarImage src={user?.image} alt="profile-picture" />
+                              <AvatarFallback>{abbreviate(user?.name) || "you"}</AvatarFallback>
+                           </Avatar>
+                        </DropdownMenuTrigger>
+
+                        <DropdownMenuContent>
+                           <DropdownMenuLabel>{user?.name || "My Account"}</DropdownMenuLabel>
+                           <DropdownMenuSeparator />
+                           <DropdownMenuItem asChild>
+                              <Link to="/profile">My Profile</Link>
+                           </DropdownMenuItem>
+                           <DropdownMenuItem asChild>
+                              <button onClick={signOut} className="w-full">
+                                 Logout
+                              </button>
+                           </DropdownMenuItem>
+                        </DropdownMenuContent>
+                     </DropdownMenu>
                   )}
                </div>
             </section>
