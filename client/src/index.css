@@ -69,6 +69,25 @@
    }
 }
 
+@layer components {
+   .main-container {
+      @apply min-h-[calc(100vh-27.625rem)] sm:min-h-[calc(100vh-28.5rem)] lg:min-h-[calc(100vh-24.25rem)];
+   }
+
+   .nav-icon .fill {
+      @apply hidden;
+   }
+   .active-nav .icon {
+      @apply bg-secondary text-primary;
+   }
+   .active-nav .icon .fill {
+      @apply block;
+   }
+   .active-nav .icon .invert {
+      @apply text-white;
+   }
+}
+
 @layer utilities {
    .flex-center {
       @apply flex items-center justify-center;

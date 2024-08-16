@@ -1,18 +1,18 @@
 import { Outlet } from "react-router-dom";
+import Header from "@/layouts/Header";
+import Footer from "@/layouts/Footer";
 
 const Layout = () => {
    return (
-      <>
-         <section className="h-screen flex flex-col">
-            <header className="p-6 border-b flex-center">Header</header>
+      <section className="pb-[4.75rem] sm:pb-[5.625rem] lg:pb-0">
+         <Header />
 
-            <main className="flex-grow flex-center">
-               <Outlet />
-            </main>
+         <main className="main-container font-medium flex flex-col">
+            <Outlet />
+         </main>
 
-            <footer className="p-6 border-y flex-center">Footer</footer>
-         </section>
-      </>
+         <Footer />
+      </section>
    );
 };
 export default Layout;
