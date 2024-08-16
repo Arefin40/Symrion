@@ -1,10 +1,10 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import homeRoute from "@/routes/homeRoute";
-import { errorHandler, notFound } from "@/middlewares";
-import { connectToDB } from "@/config/db";
-import corsOptions from "@/config/corsOptions";
+import homeRoute from "./routes/homeRoute";
+import { errorHandler, notFound } from "./middlewares";
+import { connectToDB } from "./config/db";
+import corsOptions from "./config/corsOptions";
 
 dotenv.config();
 const app = express();
@@ -25,3 +25,5 @@ const PORT = process.env.PORT || 3000;
 connectToDB()
    .then(() => app.listen(PORT, () => console.log(`Listening at 🎉 http://localhost:${PORT}`)))
    .catch((error) => console.log(error));
+
+export default app;
