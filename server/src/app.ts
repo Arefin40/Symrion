@@ -2,6 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import homeRoute from "./routes/homeRoute";
+import productRoute from "./routes/productRoute";
 import { errorHandler, notFound } from "./middlewares";
 import { connectToDB } from "./config/db";
 import corsOptions from "./config/corsOptions";
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // routes
 app.use("/", homeRoute);
+app.use("/products", productRoute);
 
 // error handler
 app.use(notFound);
