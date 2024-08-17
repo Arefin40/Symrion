@@ -34,6 +34,63 @@ export const get = request(async (req: Request, res: Response) => {
    res.status(200).send(product);
 });
 
+// get all product
+export const getAll = request(async (req: Request, res: Response) => {
+   type queryType = Record<string, string | undefined>;
+   const { q, category, brand, price, sort, page = "1", limit = "8" } = req.query as queryType;
+
+   let filter: any = {};
+   let sortOption: any = {};
+
+   // Search by product name
+   if (q) filter.name = new RegExp(q, "i");
+
+   // Category filter
+   if (category) {
+      const categories = category.split(",").map((c) => new RegExp(c, "i"));
+      filter.category = { $in: categories };
+   }
+
+   // Brand filter
+   if (brand) {
+      const brands = brand.split(",").map((b) => new RegExp(b, "i"));
+      filter.brand = { $in: brands };
+   }
+
+   // Price range filter
+   if (price) {
+      const priceRange = price.split("-");
+      filter.price = {};
+      filter.price.$gte = parseInt(priceRange[0]);
+      filter.price.$lte = parseInt(priceRange[1]);
+   }
+
+   // Sorting
+   if (sort === "price_asc") sortOption.price = 1;
+   else if (sort === "price_desc") sortOption.price = -1;
+   else if (sort === "newest") sortOption.createdAt = -1;
+
+   // pagination parameters
+   const _page = parseInt(page) || 1;
+   const _limit = parseInt(limit) || 6;
+   const startIndex = (_page - 1) * _limit;
+
+   // fetch products with pagination
+   const products = await Product.find(filter)
+      .lean()
+      .sort(sortOption)
+      .skip(startIndex)
+      .limit(_limit);
+
+   // pagination metadata
+   const total = await Product.countDocuments(filter);
+   const pages = Math.ceil(total / _limit);
+   const count = products.length;
+
+   // products with pagination metadata
+   res.status(200).send({ success: true, count, total, page, pages, products });
+});
+
 // get available brands
 export const getBrands = request(async (req: Request, res: Response) => {
    const { category } = req.query;

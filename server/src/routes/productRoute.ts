@@ -9,6 +9,9 @@ router.post("/", Product.create);
 // upload multiple products
 router.post("/upload", Product.uploadMany);
 
+// get all products
+router.get("/", Product.getAll);
+
 // get available brands for the selected category
 router.get("/brands", Product.getBrands);
 
