@@ -33,3 +33,15 @@ export const get = request(async (req: Request, res: Response) => {
    if (!product) throw new ErrorResponse(404, "Product not found");
    res.status(200).send(product);
 });
+
+// get available brands
+export const getBrands = request(async (req: Request, res: Response) => {
+   const { category } = req.query;
+   console.log(category);
+
+   if (!category) throw new ErrorResponse(400, "Category is required");
+   const brands = await Product.distinct("brand", {
+      category: { $regex: new RegExp(category as string, "i") },
+   });
+   res.status(200).send(brands);
+});
