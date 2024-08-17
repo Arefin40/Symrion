@@ -45,3 +45,22 @@ export const getBrands = request(async (req: Request, res: Response) => {
    });
    res.status(200).send(brands);
 });
+
+// get max price available
+export const getMaxPrice = request(async (req: Request, res: Response) => {
+   const { category, brand } = req.query;
+   if (!category) throw new ErrorResponse(400, "Category is required");
+
+   // generate case-insensitive filters
+   const filter: any = {};
+   if (category) filter.category = { $regex: new RegExp(category as string, "i") };
+   if (brand) filter.brand = { $regex: new RegExp(brand as string, "i") };
+
+   // find the product with highest price
+   const maxPriceProduct = await Product.findOne(filter).sort({ price: -1 }).select("price");
+
+   // Round up the max price to nearest 100
+   const maxPrice = Math.ceil((maxPriceProduct?.price || 0) / 100) * 100;
+
+   res.status(200).send({ maxPrice });
+});

@@ -12,6 +12,9 @@ router.post("/upload", Product.uploadMany);
 // get available brands for the selected category
 router.get("/brands", Product.getBrands);
 
+// get max-price available based on category and brand
+router.get("/max-price", Product.getMaxPrice);
+
 // get products details
 router.get("/:id", Product.get);
 
