@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const NotFoundIllustration = ({ className = "w-full h-full max-w-screen-md max-h-full" }) => {
-   const color1 = "text-[#b189f6]";
+   const color1 = "text-secondary";
    const color2 = "text-primary";
 
    return (
@@ -235,7 +235,7 @@ export default () => {
 
             <Link
                to="/"
-               className="mt-5 px-6 py-3 rounded-full bg-violet-500 text-primary-foreground text-lg"
+               className="mt-5 px-6 py-3 rounded-full bg-primary text-primary-foreground text-lg"
             >
                Go to Home
             </Link>
