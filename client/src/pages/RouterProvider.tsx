@@ -5,6 +5,7 @@ import ErrorPage from "@/pages/ErrorPage";
 import Login from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import Home from "@/pages/Home";
+import Products from "@/pages/Products";
 import ShoppingCart from "@/pages/ShoppingCart";
 import Profile from "@/pages/Profile";
 import Contact from "@/pages/Contact";
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage />,
       children: [
          { path: "/", element: <Home /> },
+         { path: "/products", element: <Products /> },
          { path: "/contacts", element: <Contact /> },
          { path: "/shopping-cart", element: <PrivateRoute component={<ShoppingCart />} /> },
          { path: "/profile", element: <PrivateRoute component={<Profile />} /> },
