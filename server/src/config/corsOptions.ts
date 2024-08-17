@@ -1,9 +1,9 @@
 export default {
    origin: [
       "http://localhost:5173",
-      "https://symrion.vercel.app",
-      "https://symrion.web.app",
-      "https://symrion.firebaseapp.com",
+      "https://sa-symrion.vercel.app",
+      "https://sa-symrion.web.app",
+      "https://sa-symrion.firebaseapp.com",
    ],
    credentials: true,
 };
