@@ -31,7 +31,7 @@ const Header = () => {
    const { user, signOut } = useAuth();
    return (
       <>
-         <header className="sticky top-0 border-b font-medium text-gray-900 bg-white">
+         <header className="sticky top-0 border-b font-medium text-gray-900 bg-white z-50">
             <section className="h-16 lg:h-20 container flex lg:grid lg:grid-cols-[16rem,1fr,16rem] items-center justify-center lg:justify-normal gap-x-10">
                <Link to="/">
                   <Logo />

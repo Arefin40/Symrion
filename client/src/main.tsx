@@ -4,7 +4,6 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RouterProvider from "./pages/RouterProvider";
-import "react-range-slider-input/dist/style.css";
 import "./index.css";
 
 const queryClient = new QueryClient({

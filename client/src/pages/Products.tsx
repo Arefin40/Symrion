@@ -52,8 +52,6 @@ export default function Products() {
 
    if (products.isLoading) return <LoadingState />;
 
-   console.log(products.data?.products);
-
    return (
       <section className="container py-3 lg:py-5 grid gap-3 lg:gap-6">
          <div className="h-20 mb-16 relative bg-gradient-to-r from-[#e3f1fd] to-[#fddad8]">
@@ -127,17 +125,10 @@ export default function Products() {
 
             <SelectBrand category={category} onChange={(b: string) => setBrand(b)} />
 
-            <div className="w-full h-10 lg:h-12 px-3 lg:px-4 flex gap-x-3 items-center border rounded-md">
-               <span>{priceRange?.[0] || 0}</span>
-               <Slider
-                  defaultValue={[0, Infinity]}
-                  min={0}
-                  step={1}
-                  onValueChange={(values) => setPriceRange(values)}
-                  className={cn("w-full")}
-               />
-               <span>{priceRange?.[1] || <InfinityIcon className="size-5" />}</span>
-            </div>
+            <PriceRangeFilter
+               priceRange={priceRange}
+               onChange={(values: number[]) => setPriceRange(values)}
+            />
          </section>
 
          <main className="grid lg:grid-cols-4 gap-y-10 lg:gap-x-6 lg:gap-y-14">
@@ -183,5 +174,21 @@ const SelectBrand = ({ category, onChange }: { category: string; onChange: any }
             </SelectGroup>
          </SelectContent>
       </Select>
+   );
+};
+
+const PriceRangeFilter = ({ priceRange, onChange }: { priceRange?: number[]; onChange: any }) => {
+   return (
+      <div className="w-full h-10 lg:h-12 px-3 lg:px-4 flex gap-x-3 items-center border rounded-md">
+         <span>{priceRange?.[0] || 0}</span>
+         <Slider
+            defaultValue={[0, Infinity]}
+            min={0}
+            step={1}
+            onValueChange={onChange}
+            className={cn("w-full")}
+         />
+         <span>{priceRange?.[1] || <InfinityIcon className="size-5" />}</span>
+      </div>
    );
 };
